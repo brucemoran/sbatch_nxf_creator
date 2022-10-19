@@ -1,0 +1,28 @@
+NAME:
+ - "10E56A"
+ - "10E942A"
+ - "13E1957A"
+ - "15E567A"
+ - "16E631A"
+ - "16E748A"
+ - "17E1211A"
+ - "17E1250A"
+ - "18E1108A"
+ - "20E1198A"
+ - "21E703A"
+ - "C1"
+ - "C4"
+ - "C14"
+ - "C28"
+ - "C35"
+ - "C36"
+ - "C37"
+ - "C38"
+PIPELINE:
+ - "nextflow run brucemoran/tumour_only -profile sonic,singularity --sampleCat {BASE_NXF}/{NAME}/sample.csv --runID {NAME} --refDir /scratch/moranb/references/tumour_only --assembly GRCh38 --seqLevel exome --levelTag Agilent_SureSelect_Human_V7 --email bruce.moran@ucd.ie"
+ - "nextflow run brucemoran/tumour_only -profile sonic,singularity --sampleCat {BASE_NXF}/{NAME}/sample.csv --runID {NAME} --refDir /scratch/moranb/references/tumour_only --assembly GRCh38 --seqLevel panel --levelTag skennedy_uveal --email bruce.moran@ucd.ie"
+VERS_NXF: 20.07.1.5412
+CONF_NXF:
+  - "/home/moranb/bin/sonic_nf.config"
+BASE_NXF: "/scratch/moranb/projects/skennedy_uveal"
+OUTDIR: "{BASE_NXF}/{NAME}"
