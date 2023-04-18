@@ -7,4 +7,4 @@ PIPELINE:
  - "nextflow run nf-core/rnaseq -profile test,ucd_sonic,moranb --custom_config_base 'https://raw.githubusercontent.com/brucemoran/configs/UCD_SONIC' --outdir {BASE_NXF}/{NAME}/rnaseq"
 VERS_NXF: 22.04.5.5708
 CONF_NXF:
-BASE_NXF: "/scratch/moranb/tests"
+BASE_NXF: "/scratch/moranb/tests/sbatch_nxf_creator"
