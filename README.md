@@ -23,7 +23,7 @@ A key may contain an array, i.e. multiple terms denoted by a dash, but not a dic
 
 It may also be a `key-value` pair.
 
-#### NAME
+### NAMES
 This should be a unique identifier and is used to create a directory, and tag output files.
 
 If an array, each name is taken in turn and a directory and `sbatch` file are produced for each name.
@@ -32,7 +32,7 @@ Names can be added continuously, making this system extensible to new data comin
 
 E.g. you have `test_1`, run the utility, and then add `test_2`, and run it again. This will just create the new `test_2` directory and `sbatch` file, `test_1` stays the same unless other `keys` were changed.
 
-#### PIPELINES
+### PIPELINES
 Here we add the `Nextflow` command. In the example `sbatch_nxf_creater.yaml`, these are tests for `sarek` and `rnaseq` nf-core workflows. This is a good way to test if the system is functional.
 
 To add more pipelines, simply add another element.
@@ -43,13 +43,16 @@ NB that you should retain the `{BASE_NXF}/{NAME}` structure to allow the utility
 
 This can be extended where you want to include the `{NAME}`.
 
-#### VERS_NXF
-This specifies Nextflow version for lloading from `modules` (likely in a SLURM scenario). Ensure that the version you have exists!
+### VERS_NXF
+This specifies Nextflow version for loading from `modules` (likely in a SLURM scenario). Ensure that the version you have exists!
 
-#### CONF_NXF
+### VERS_SNG
+This specifies Singularity version as per above.
+
+### CONF_NXF
 Allows loading of your own local config file using `-c <your.config>`, leave blank if not using a local config.
 
-#### BASE_NXF
+### BASE_NXF
 The base directory for your workflow. Must be writable!
 
 A `.template.sbatch` file is created here which is used to generate a `.{NAME}.nextflow.config`, `.nextflow.log`, and the final `{NAME}.sbatch` files.
