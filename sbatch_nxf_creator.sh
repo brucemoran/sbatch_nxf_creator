@@ -4,7 +4,7 @@
 YAML=$1
 ##read YAML
 ##array of YAML heads
-declare -a YML_HEAD=($(grep ":" ${YAML} | perl -ane 'print "$F[0] ";') )
+declare -a YML_HEAD=($(grep ":" ${YAML} | grep -v "/" | perl -ane 'print "$F[0] ";') )
 YML_HEADS=$(( ${#YML_HEAD[@]} - 1 ))
 
 ##iterate and parse hyphens
@@ -24,11 +24,11 @@ function yml_parse {
 }
 
 ##no array of arrays in bash...
-NAMES=($(yml_parse 1 2 | sed 's/"//g' ))
-PIPELINE=$(yml_parse 2 3 | sed 's/\"//g')
-VERS_NXF=($(yml_parse 3 4 | sed 's/"//g'))
-CONF_NXF=($(yml_parse 4 5 | sed 's/"//g'))
-BASE_NXF=($(yml_parse 5 6 | sed 's/"//g'))
+NAMES=($(yml_parse 0 1 | sed 's/"//g' ))
+PIPELINES=($(yml_parse 1 2))
+VERS_NXF=($(yml_parse 2 3 | sed 's/"//g'))
+CONF_NXF=($(yml_parse 3 4 | sed 's/"//g'))
+BASE_NXF=($(yml_parse 4 5 | sed 's/"//g'))
 
 
 ##sub BASE_NXF in OUTDIR
@@ -68,7 +68,7 @@ for NAME in ${NAMES[@]}; do
   fi
 
   ##make PIPELINE
-  echo ${PIPELINE[@]} | \
+  echo ${PIPELINES[@]} | \
   sed 's/nextflow run/run/g' | \
   while read LINE; do
     echo "srun nextflow -log $OUTD/.nextflow.log "$LINE" -c $OUTD/.${NAME}.nextflow.config -w $OUTD/work -with-mpi"
