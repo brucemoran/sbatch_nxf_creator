@@ -32,14 +32,16 @@ Names can be added continuously, making this system extensible to new data comin
 
 E.g. you have `test_1`, run the utility, and then add `test_2`, and run it again. This will just create the new `test_2` directory and `sbatch` file, `test_1` stays the same unless other `keys` were changed.
 
-#### PIPELINE
-Here we add the `Nextflow` command. In the example `sbatch_nxf_creater.yaml`, these are tests for `Sarek` and `rnaseq` nf-core workflows. This is a good way to test if the system is functional.
+#### PIPELINES
+Here we add the `Nextflow` command. In the example `sbatch_nxf_creater.yaml`, these are tests for `sarek` and `rnaseq` nf-core workflows. This is a good way to test if the system is functional.
 
 To add more pipelines, simply add another element.
 
 If you want to use further pipelines, nf-core or otherwise, add them to your test `YAML`!
 
 NB that you should retain the `{BASE_NXF}/{NAME}` structure to allow the utility to replace your output directory and working directory with what you specify in the `YAML`.
+
+This can be extended where you want to include the `{NAME}`.
 
 #### VERS_NXF
 This specifies Nextflow version for lloading from `modules` (likely in a SLURM scenario). Ensure that the version you have exists!
@@ -50,6 +52,6 @@ Allows loading of your own local config file using `-c <your.config>`, leave bla
 #### BASE_NXF
 The base directory for your workflow. Must be writable!
 
-A `.template.sbatch` file is created here which is used to generate a `.<name>.nextflow.config`, `.nextflow.log`, and the final `<name>.sbatch` files.
+A `.template.sbatch` file is created here which is used to generate a `.{NAME}.nextflow.config`, `.nextflow.log`, and the final `{NAME}.sbatch` files.
 
-It is also where all output for that `<name>` are saved from pipeline(s), and where a `<name>/pipeline_info` directory records the pipeline info.
+It is also where all output for that `{NAME}` are saved from pipeline(s), and where a `{NAME}/pipeline_info` directory records the pipeline info.

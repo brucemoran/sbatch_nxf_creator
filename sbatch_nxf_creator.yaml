@@ -2,7 +2,7 @@
 NAME:
  - "test_1"
  - "test_2"
-PIPELINE:
+PIPELINES:
  - "nextflow run nf-core/sarek -profile test,ucd_sonic,moranb --custom_config_base 'https://raw.githubusercontent.com/brucemoran/configs/UCD_SONIC' --outdir {BASE_NXF}/{NAME}/sarek"
  - "nextflow run nf-core/rnaseq -profile test,ucd_sonic,moranb --custom_config_base 'https://raw.githubusercontent.com/brucemoran/configs/UCD_SONIC' --outdir {BASE_NXF}/{NAME}/rnaseq"
 VERS_NXF: 22.04.5.5708

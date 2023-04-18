@@ -4,7 +4,7 @@
 YAML=$1
 ##read YAML
 ##array of YAML heads
-declare -a YML_HEAD=($(grep ":" ${YAML} | grep -v "/" | perl -ane 'print "$F[0] ";') )
+declare -a YML_HEAD=($(grep ":" ${YAML} | grep -v "//" | perl -ane 'print "$F[0] ";') )
 YML_HEADS=$(( ${#YML_HEAD[@]} - 1 ))
 
 ##iterate and parse hyphens
@@ -24,15 +24,22 @@ function yml_parse {
 }
 
 ##no array of arrays in bash...
-NAMES=($(yml_parse 0 1 | sed 's/"//g' ))
-PIPELINES=($(yml_parse 1 2))
+NAMES=($(yml_parse 0 1 | sed 's/"//g'))
+set -f
+IFS='" "'
+PIPELINES=($(yml_parse 1 2 | while read pipeline;
+  do echo ${pipeline}\;; done | sed 's/"//g'))
+unset IFS
+set +f
 VERS_NXF=($(yml_parse 2 3 | sed 's/"//g'))
 CONF_NXF=($(yml_parse 3 4 | sed 's/"//g'))
 BASE_NXF=($(yml_parse 4 5 | sed 's/"//g'))
 
-
 ##sub BASE_NXF in OUTDIR
 BASE_NXF=${BASE_NXF[@]}
+if [[ ! -d ${BASE_NXF} ]]; then
+  mkdir -p ${BASE_NXF}
+fi
 OUTDIR=$(echo "{BASE_NXF}/{NAME}" | sed "s#{BASE_NXF}#${BASE_NXF}#")
 
 ##template BATCH file
@@ -67,14 +74,18 @@ for NAME in ${NAMES[@]}; do
     done)
   fi
 
-  ##make PIPELINE
+  ##write PIPELINES
+  set -f
+  IFS=';'
   echo ${PIPELINES[@]} | \
   sed 's/nextflow run/run/g' | \
   while read LINE; do
-    echo "srun nextflow -log $OUTD/.nextflow.log "$LINE" -c $OUTD/.${NAME}.nextflow.config -w $OUTD/work -with-mpi"
+    echo "srun nextflow -log $OUTD/.nextflow.log "$LINE" -c $OUTD/.${NAME}.nextflow.config -w $OUTD/work -with-mpi;"
   done > .pls
   cat $BASE_NXF/.template.sbatch .pls > $OUTD/.template.sbatch
   rm .pls
+  unset IFS
+  set +f
 
   ##sed template
   sed "s#{NAME}#${NAME}#g" $OUTD/.template.sbatch | \
