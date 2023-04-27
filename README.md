@@ -51,6 +51,9 @@ This specifies Nextflow version for loading from `modules` (likely in a SLURM sc
 ### VERS_SNG
 This specifies Singularity version as per above.
 
+### CACH_SNG
+This specifies the Singularity cache dir. Default should be `$NXF_SINGULARITY_CACHEDIR`.
+
 ### CONF_NXF
 Allows loading of your own local config file using `-c <your.config>`, leave blank if not using a local config.
 

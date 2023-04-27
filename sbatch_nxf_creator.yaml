@@ -8,5 +8,6 @@ PIPELINES:
  - "nextflow run nf-core/rnafusion -r 2.1.0 -profile test,ucd_sonic,moranb --custom_config_base 'https://raw.githubusercontent.com/brucemoran/configs/UCD_SONIC' --outdir {BASE_NXF}/{NAME}/rnafusion -stub --all --build_references"
 VERS_NXF: 22.04.5.5708
 VERS_SNG: 3.5.2
+CACH_SNG: "$NXF_SINGULARITY_CACHEDIR"
 CONF_NXF:
 BASE_NXF: "/scratch/moranb/tests/sbatch_nxf_creator"

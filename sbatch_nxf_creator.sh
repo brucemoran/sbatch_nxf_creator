@@ -33,8 +33,9 @@ unset IFS
 set +f
 VERS_NXF=($(yml_parse 2 3 | sed 's/"//g'))
 VERS_SNG=($(yml_parse 3 4 | sed 's/"//g'))
-CONF_NXF=($(yml_parse 4 5 | sed 's/"//g'))
-BASE_NXF=($(yml_parse 5 6 | sed 's/"//g'))
+CACH_SNG=($(yml_parse 4 5 | sed 's/"//g'))
+CONF_NXF=($(yml_parse 5 6 | sed 's/"//g'))
+BASE_NXF=($(yml_parse 6 7 | sed 's/"//g'))
 
 ##sub BASE_NXF in OUTDIR
 BASE_NXF=${BASE_NXF[@]}
@@ -52,6 +53,7 @@ echo -e '#SBATCH --time 120:00:00' >> $BASE_NXF/.template.sbatch
 echo -e '#SBATCH --cpus-per-task=1' >> $BASE_NXF/.template.sbatch
 echo -e '#SBATCH --tasks-per-node=1' >> $BASE_NXF/.template.sbatch
 echo -e 'module load nextflow/{VERS_NXF} singularity/{VERS_SNG}' >> $BASE_NXF/.template.sbatch
+echo -e 'export NXF_SINGULARITY_CACHEDIR={CACH_SNG}' >> $BASE_NXF/.template.sbatch
 
 ##create another hidden conf for the sbatch to specify outdir and launchdir
 for NAME in ${NAMES[@]}; do
@@ -92,5 +94,6 @@ for NAME in ${NAMES[@]}; do
   sed "s#{NAME}#${NAME}#g" $OUTD/.template.sbatch | \
   sed "s#{VERS_NXF}#${VERS_NXF}#g" | \
   sed "s#{VERS_SNG}#${VERS_SNG}#g" | \
+  sed "s#{CACH_SNG}#${CACH_SNG}#g" | \
   sed "s#{BASE_NXF}#${BASE_NXF}#g" > $OUTD/${NAME}.sbatch
 done
