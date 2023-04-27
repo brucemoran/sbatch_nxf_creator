@@ -1,9 +1,11 @@
 # Create SBATCH files for your Nextflow runs
 
 ## Overview
-This repo was created to simplify and organise the use of Nextflow with SLURM via .sbatch files. Specifically it is of use in projects where more samples will be added, and the basic structure of those runs will be the same. It uses a YAML config that holds all information on the runs to date, and config of the Nextflow pipeline. This sounds like something Nextflow should/does do but I couldn't get it to work so made this, and the repo for ease of deployment.
+This repo was created to simplify and organise the use of Nextflow with SLURM via `.sbatch` files. Specifically it is of use in projects where more samples will be added, and the basic structure of those runs will be the same. It uses a YAML config that holds all information on the runs to date, and the command for the run's Nextflow pipeline. This sounds like something Nextflow should/does do but I couldn't get it to work so made this, and the repo for ease of deployment.
 
 NB that this was made for a specific HPC, Sonic in University College Dublin so as always YMMV.
+
+NBB as Sonic doesn't have `mksquashfs` (I think this is the issue!) on nodes, we are required to pull contianers prior to running the `nf-core` pipelines. The `nf-core tools download` method was not functional when this was being set up, and so [`nfcore_download_singularity`](https://github.com/brucemoran/nfcore_download_singularity) was created to do this. Use it on a server with `nf-core tools` and `Singularity`, then transfer the dir to Sonic/your HPC and change `$NXF_SINGULARITY_CACHEDIR` to point to the `singularity-images` dir.
 
 ## Usage
 1) Create a base directory for your project, e.g. `mkdir /home/me/project/`.
